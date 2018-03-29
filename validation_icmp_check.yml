@@ -9,6 +9,33 @@
 
   tasks:
 
+    - name: connectivity check from frontend firewall
+      shell: ping -c 1 '{{ item }}'
+      when: "'fw-1' in inventory_hostname"
+      ignore_errors: 'yes'
+      with_items:
+        - '10.0.255.17'
+        - '10.0.255.18'
+        - '10.0.255.19'
+        - '10.0.255.1'
+        - '10.0.255.2'
+        - '10.0.255.3'
+        - '217.0.0.1'
+        - '217.0.0.2'
+        - '217.0.0.3'
+
+    - name: connectivity check from backend firewall
+      shell: ping -c 1 '{{ item }}'
+      when: "'fw-2' in inventory_hostname"
+      ignore_errors: 'yes'
+      with_items:
+        - '10.0.255.17'
+        - '10.0.255.18'
+        - '10.0.255.19'
+        - '10.0.255.33'
+        - '10.0.255.34'
+        - '10.0.255.35'
+
     - name: connectivity check from edge switches vrf frontend
       shell: ping -I frontend -c 1 '{{ item }}'
       when: "'edge' in inventory_hostname"
@@ -17,7 +44,6 @@
         - '10.0.255.33'
         - '10.0.255.34'
         - '10.0.255.35'
-        - '10.0.255.34'
         - '10.0.255.17'
         - '10.0.255.18'
         - '10.0.255.19'
