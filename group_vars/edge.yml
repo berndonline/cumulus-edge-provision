@@ -10,7 +10,7 @@ static_routes:
   - 'ip route 10.0.0.0/8 10.0.255.28 vrf backend'
   - 'ip route 172.16.0.0/12 10.0.255.28 vrf backend'
   - 'ip route 192.168.0.0/16 10.0.255.28 vrf backend'
-  - 'ip route 10.0.255.0/28 10.0.255.28 vrf backend'
+  - 'ip route 10.0.255.0/28 10.0.255.30 vrf backend'
 
 peerlink:
   bond_slaves: swp53 swp54
