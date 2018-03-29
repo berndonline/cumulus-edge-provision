@@ -1,0 +1,45 @@
+---
+
+interface_eth0:
+  address: 192.168.100.35/23
+  gateway: 192.168.100.254
+
+clagd:
+  vlan: 4093
+  address: 169.254.1.1/30
+  peer_ip: 169.254.1.2
+  backup_ip: 192.168.100.36
+  sys_mac: 44:38:39:FF:40:93
+  priority: 8192
+
+vlans:
+  bridge801:
+    alias: internet
+    bridge_ports: peerlink.801 swp1
+    bridge_stp: 'on'
+    pipv4: 217.0.1.2/29
+    vipv4: 217.0.1.1/29
+    vmac: 00:00:5e:00:01:81
+    vrf: internet
+  bridge802:
+    alias: mpls
+    bridge_ports: peerlink.802 swp2
+    bridge_stp: 'on'
+    pipv4: 10.100.0.1/29
+    vrf: wan
+  bridge901:
+    alias: internet transfer
+    bridge_ports: peerlink.907 bond1.907 bond2.907
+    bridge_stp: 'on'
+    pipv4: 217.0.0.2/28
+    vipv4: 217.0.0.1/28
+    vmac: 00:00:5e:00:01:91
+    vrf: internet
+  bridge902:
+    alias: wan transfer
+    bridge_ports: peerlink.903 bond1.903 bond2.903
+    bridge_stp: 'on'
+    pipv4: 10.0.255.34/28
+    vipv4: 10.0.255.33/28
+    vmac: 00:00:5e:00:01:92
+    vrf: wan

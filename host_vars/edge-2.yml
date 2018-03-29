@@ -1,0 +1,27 @@
+---
+
+interface_eth0:
+  address: 192.168.100.34/23
+  gateway: 192.168.100.254
+
+clagd:
+  vlan: 4094
+  address: 169.254.1.2/30
+  peer_ip: 169.254.1.1
+  backup_ip: 192.168.100.33
+  sys_mac: 44:38:39:FF:40:94
+  priority: 8192
+
+vlans:
+  bridge.903:
+    alias: frontend transfer
+    pipv4: 10.0.255.3/28
+    vipv4: 10.0.255.1/28
+    vmac: 00:00:5e:00:01:93
+    vrf: frontend
+  bridge.904:
+    alias: backend transfer
+    pipv4: 10.0.255.19/28
+    vipv4: 10.0.255.17/28
+    vmac: 00:00:5e:00:01:94
+    vrf: backend

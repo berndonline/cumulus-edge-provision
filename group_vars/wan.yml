@@ -5,7 +5,8 @@ vrf:
   - 'internet'
 
 static_routes:
-  - 'ip route 10.0.0.0/16 10.0.255.14 vrf vrf-wan'
+  - 'ip route 10.0.0.0/16 10.0.255.46 vrf wan'
+  - 'ip route 10.0.0.0/16 217.0.0.14 vrf internet'
 
 peerlink:
   bond_slaves: swp51 swp52
@@ -15,11 +16,11 @@ bonds:
   bond1:
     alias: fw-1
     clag_id: 1
-    bond_slaves: swp48
+    bond_slaves: swp47
   bond2:
     alias: fw-2
     clag_id: 2
-    bond_slaves: swp47
+    bond_slaves: swp48
 
 bridge:
   ports: peerlink bond1 bond2

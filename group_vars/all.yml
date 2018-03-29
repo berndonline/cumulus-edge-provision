@@ -16,4 +16,7 @@ clag_pairs:
     - wan-2
 
 ptm:
-  - '"leaf-1":"swp51" -- "spine-1":"swp1"'
+  - '"wan-1":"swp51" -- "wan-2":"swp51"'
+  - '"wan-1":"swp52" -- "wan-2":"swp52"'
+  - '"edge-1":"swp53" -- "edge-2":"swp53"'
+  - '"edge-1":"swp54" -- "edge-2":"swp53"'
