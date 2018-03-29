@@ -37,7 +37,7 @@ vlans:
     vrf: internet
   bridge902:
     alias: wan transfer
-    bridge_ports: peerlink.902 bond1.902 bond2.903
+    bridge_ports: peerlink.902 bond1.902 bond2.902
     bridge_stp: 'on'
     pipv4: 10.0.255.34/28
     vipv4: 10.0.255.33/28
