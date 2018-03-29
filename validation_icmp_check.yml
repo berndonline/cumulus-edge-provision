@@ -5,12 +5,11 @@
   user: '{{ ansible_ssh_user }}'
   become: 'True'
   gather_facts: 'False'
-  serial: 1
-  
+
   tasks:
 
     - name: connectivity check from frontend firewall
-      shell: ping -c 1 '{{ item }}'
+      shell: ping -c 5 '{{ item }}'
       when: "'fw-1' in inventory_hostname"
       ignore_errors: 'yes'
       with_items:
@@ -28,7 +27,7 @@
         - '217.0.0.3'
 
     - name: connectivity check from backend firewall
-      shell: ping -c 1 '{{ item }}'
+      shell: ping -c 5 '{{ item }}'
       when: "'fw-2' in inventory_hostname"
       ignore_errors: 'yes'
       with_items:
@@ -43,7 +42,7 @@
         - '10.0.255.3'
 
     - name: connectivity check from edge switches vrf frontend
-      shell: ping -I frontend -c 1 '{{ item }}'
+      shell: ping -I frontend -c 5 '{{ item }}'
       when: "'edge' in inventory_hostname"
       ignore_errors: 'yes'
       with_items:
@@ -61,7 +60,7 @@
         - '217.0.0.3'
 
     - name: connectivity check from edge switches vrf backend
-      shell: ping -I backend -c 1 '{{ item }}'
+      shell: ping -I backend -c 5 '{{ item }}'
       when: "'edge' in inventory_hostname"
       ignore_errors: 'yes'
       with_items:
@@ -80,7 +79,7 @@
         - '217.0.0.3'
 
     - name: connectivity check from wan switches vrf internet
-      shell: ping -I internet -c 1 '{{ item }}'
+      shell: ping -I internet -c 5 '{{ item }}'
       when: "'wan' in inventory_hostname"
       ignore_errors: 'yes'
       with_items:
@@ -90,7 +89,7 @@
         - '217.0.0.14'
 
     - name: connectivity check from wan switches vrf wan
-      shell: ping -I wan -c 1 '{{ item }}'
+      shell: ping -I wan -c 5 '{{ item }}'
       when: "'wan' in inventory_hostname"
       ignore_errors: 'yes'
       with_items:
