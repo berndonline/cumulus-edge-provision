@@ -1,0 +1,58 @@
+## File Managed by Ansible ##
+frr version 3.2+cl3u1
+frr defaults datacenter
+hostname {{ inventory_hostname }}
+username cumulus nopassword
+!
+service integrated-vtysh-config
+!
+log syslog informational
+!
+{% for item in vrf %}
+vrf {{ item }}
+!
+{% endfor %}
+{% if bgp is defined %}
+{% for vrf, value in bgp.items() %}
+router bgp {{ value.asn }} vrf {{ vrf }}
+{% for item in value.neighbor %}
+ neighbor {{ item.address }} remote-as {{ item.remote_as }}
+ neighbor {{ item.address }} password {{ item.password }}
+ neighbor {{ item.address }} timers 1 3
+{% endfor %}
+ !
+ address-family ipv4 unicast
+{% for item in value.networks %}
+  network {{ item }}
+{% endfor %}
+{% for item in value.address_family_ipv4 %}
+{% if value and 'route_map' in item %}
+  neighbor {{ item.neighbor }} route-map {{ item.route_map }}
+{% endif %}
+{% if value and 'next_hop_self' in item %}
+  neighbor {{ item.neighbor }} next-hop-self
+{% endif %}
+{% endfor %}
+ exit-address-family
+{% endfor %}
+{% endif %}
+!
+{% for item in static_routes %}
+{{ item }}
+{% endfor %}
+!
+{% if route_map is defined %}
+{% for route_map, value in route_map.items() %}
+{% for item in value.access_list %}
+access-list {{ route_map }} permit {{ item }}
+{% endfor %}
+{% endfor %}
+!
+{% for route_map, value in route_map.items() %}
+route-map {{ route_map }} permit {{ value.priority }}
+ match ip address {{ route_map }}
+{% endfor %}
+{% endif %}
+!
+line vty
+!

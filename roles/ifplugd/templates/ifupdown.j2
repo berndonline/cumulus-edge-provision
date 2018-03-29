@@ -1,0 +1,27 @@
+## File Managed by Ansible ##
+
+# The peerlink bond interface
+PEERLINK=peerlink
+
+# The switchports to bring down on peerlink failure
+#
+SWITCHPORTS=$({{ ifplugd.switch_ports }})
+
+case "$1" in
+
+    "$PEERLINK")
+        clagrole=$(clagctl | grep "Our Priority" | awk '{print $8}')
+	case "$2" in
+	    up | down)
+		action=$2
+		if [ "$clagrole" = "secondary" ]; then
+		    for interface in $SWITCHPORTS; do
+			echo "bringing $action : $interface"
+			ip link set $interface $action
+		    done
+		fi
+		;;
+	esac
+	;;
+
+esac

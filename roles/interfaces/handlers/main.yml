@@ -1,0 +1,7 @@
+---
+
+- name: reload networking
+  command: "{{item}}"
+  with_items:
+    - ifreload -a
+    - sleep 10

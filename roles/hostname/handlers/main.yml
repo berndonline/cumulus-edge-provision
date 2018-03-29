@@ -1,0 +1,4 @@
+---
+
+- name: apply hostname
+  command: hostname -F /etc/hostname

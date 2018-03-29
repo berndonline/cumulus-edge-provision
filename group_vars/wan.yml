@@ -1,0 +1,30 @@
+---
+
+vrf:
+  - 'wan'
+  - 'internet'
+
+static_routes:
+  - 'ip route 10.0.0.0/16 10.0.255.14 vrf vrf-wan'
+
+peerlink:
+  bond_slaves: swp51 swp52
+  mtu: 9216
+
+bonds:
+  bond1:
+    alias: fw-1
+    clag_id: 1
+    bond_slaves: swp48
+  bond2:
+    alias: fw-2
+    clag_id: 2
+    bond_slaves: swp47
+
+bridge:
+  ports: peerlink bond1 bond2
+
+ifplugd:
+  interfaces: peerlink
+  args: '-q -f -u0 -d10 -w -I'
+  switch_ports: 'seq -f swp%g 1 4'

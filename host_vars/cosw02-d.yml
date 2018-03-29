@@ -1,0 +1,58 @@
+---
+
+interface_eth0:
+  address: 172.16.102.2/23
+  gateway: 172.16.103.254
+
+clagd:
+  vlan: 4094
+  address: 169.254.1.2/30
+  peer_ip: 169.254.1.1
+  backup_ip: 172.16.102.1
+  sys_mac: 44:38:39:FF:40:94
+  priority: 8192
+
+bgp:
+  vrf-live-nsx:
+    asn: '65101'
+    neighbor:
+      - {address: 10.2.254.17, remote_as: 65102, password: nsx!BGP-1159}
+      - {address: 10.2.254.18, remote_as: 65102, password: nsx!BGP-1159}
+      - {address: 10.2.254.19, remote_as: 65102, password: nsx!BGP-1159}
+      - {address: 10.2.254.20, remote_as: 65102, password: nsx!BGP-1159}
+      - {address: 10.2.255.18, remote_as: 65101, password: nsx!BGP-1159}
+    networks:
+      - '0.0.0.0/0'
+    address_family_ipv4:
+      - {neighbor: 10.2.254.17, route_map: bgp-in}
+      - {neighbor: 10.2.254.18, route_map: bgp-in}
+      - {neighbor: 10.2.254.19, route_map: bgp-in}
+      - {neighbor: 10.2.254.20, route_map: bgp-in}
+      - {neighbor: 10.2.254.18, route_map: bgp-in}
+      - {neighbor: 10.2.255.18, next_hop_self: 'true'}
+
+route_map:
+  bgp-in:
+    priority: 10
+    access_list:
+      - '10.2.128.0/17'
+
+vlans:
+  bridge.401:
+    alias: live management
+    pipv4: 172.16.103.253/23
+    vipv4: 172.16.103.254/23
+    vmac: 00:00:5e:00:01:41
+    vrf: vrf-live
+  bridge.904:
+    alias: live transfer
+    pipv4: 10.2.255.3/28
+    vipv4: 10.2.255.1/28
+    vmac: 00:00:5e:00:01:94
+    vrf: vrf-live
+  bridge.905:
+    alias: nsx transfer
+    pipv4: 10.2.255.19/28
+    vipv4: 10.2.255.17/28
+    vmac: 00:00:5e:00:01:95
+    vrf: vrf-live-nsx

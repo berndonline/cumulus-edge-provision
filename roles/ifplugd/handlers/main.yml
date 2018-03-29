@@ -1,0 +1,4 @@
+---
+
+- name: restart ifplugd
+  service: name=ifplugd state=restarted

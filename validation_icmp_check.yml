@@ -1,0 +1,88 @@
+---
+
+- hosts: spine edge
+
+  user: '{{ ansible_ssh_user }}'
+  become: 'True'
+  gather_facts: 'False'
+
+
+  tasks:
+
+    - name: connectivity check from core switches vrf live-nsx
+      shell: ping -I vrf-live-nsx -c 1 '{{ item }}'
+      when: "'cosw' in inventory_hostname"
+      ignore_errors: 'yes'
+      with_items:
+        - '10.2.255.17'
+        - '10.2.255.18'
+        - '10.2.255.19'
+        - '10.2.255.30'
+        - '10.2.255.1'
+        - '10.2.255.2'
+        - '10.2.255.3'
+        - '10.2.255.12'
+        - '10.2.255.14'
+        - '10.2.127.1'
+        - '10.2.127.2'
+        - '10.2.127.3'
+        - '10.2.127.14'
+        - '212.161.124.10'
+        - '212.161.124.12'
+
+    - name: connectivity check from core switches vrf live
+      shell: ping -I vrf-live -c 1 '{{ item }}'
+      when: "'cosw' in inventory_hostname"
+      ignore_errors: 'yes'
+      with_items:
+        - '10.2.255.17'
+        - '10.2.255.18'
+        - '10.2.255.19'
+        - '10.2.255.30'
+        - '10.2.255.1'
+        - '10.2.255.2'
+        - '10.2.255.3'
+        - '10.2.255.12'
+        - '10.2.255.14'
+        - '10.2.127.1'
+        - '10.2.127.2'
+        - '10.2.127.3'
+        - '10.2.127.14'
+        - '212.161.124.10'
+        - '212.161.124.12'
+
+    - name: connectivity check from wan switches vrf internet
+      shell: ping -I vrf-internet -c 1 '{{ item }}'
+      when: "'wansw' in inventory_hostname"
+      ignore_errors: 'yes'
+      with_items:
+        - '212.161.124.1'
+        - '212.161.124.2'
+        - '212.161.124.3'
+        - '212.161.124.10'
+        - '212.161.124.12'
+
+    - name: connectivity check from wan switches vrf wan
+      shell: ping -I vrf-wan -c 1 '{{ item }}'
+      when: "'wansw' in inventory_hostname"
+      ignore_errors: 'yes'
+      with_items:
+        - '10.2.255.17'
+        - '10.2.255.18'
+        - '10.2.255.19'
+        - '10.2.255.30'
+        - '10.2.255.1'
+        - '10.2.255.2'
+        - '10.2.255.3'
+        - '10.2.255.12'
+        - '10.2.255.14'
+        - '10.2.127.1'
+        - '10.2.127.2'
+        - '10.2.127.3'
+        - '10.2.127.14'
+        - '10.255.6.20'
+        - '10.255.6.21'
+        - '10.255.7.20'
+        - '10.255.7.21'
+        - '10.255.10.9'
+        - '10.255.10.10'

@@ -1,0 +1,35 @@
+---
+
+vrf:
+  - 'backend'
+  - 'frontend'
+
+static_routes:
+  - 'ip route 0.0.0.0/0 10.0.255.14 vrf frontend'
+
+peerlink:
+  bond_slaves: swp53 swp54
+  mtu: 9216
+
+bonds:
+  bond1:
+    alias: fw-1
+    clag_id: 1
+    bond_slaves: swp47
+  bond2:
+    alias: fw-2
+    clag_id: 2
+    bond_slaves: swp48
+
+bridge:
+  bridge_vlan_aware: 'yes'
+  ports: peerlink bond1 bond2
+  vids: 903 904
+  bridge_stp: 'on'
+  bridge_mcsnoop: 1
+  bridge_mcquerier: 1
+
+ifplugd:
+  interfaces: peerlink
+  args: '-q -f -u0 -d10 -w -I'
+  switch_ports: 'seq -f swp%g 1 4'

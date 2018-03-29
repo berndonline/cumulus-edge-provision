@@ -1,0 +1,12 @@
+---
+
+- name: configure the interfaces / bonds / brides / SVIs ...
+  template: src=templates/interfaces_config.j2
+            dest=/etc/network/interfaces.d/interfaces_config
+  notify: reload networking
+
+- name: Include interfaces.d to the main interface config file
+  template: src=templates/interfaces_vagrant.j2
+            dest=/etc/network/interfaces owner=root group=root mode=0644
+  when: vagrant == true
+  notify: reload networking

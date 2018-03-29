@@ -1,0 +1,16 @@
+---
+
+- hosts: spine edge
+
+  user: '{{ ansible_ssh_user }}'
+  become: 'True'
+  gather_facts: 'False'
+
+  roles:
+    - switchgroups
+    - hostname
+    - interfaces
+    - routing
+    - ptm
+    - ntp
+    - ifplugd

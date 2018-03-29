@@ -1,0 +1,136 @@
+## File Managed by Ansible ##
+
+{% if vrf is defined %}
+{% for item in vrf %}
+auto {{ item }}
+iface {{ item }}
+    vrf-table auto
+
+{% endfor %}
+{% endif %}
+{% if peerlink is defined %}
+auto peerlink
+iface peerlink
+    bond-slaves {{ peerlink.bond_slaves }}
+    mtu {{ peerlink.mtu }}
+
+{% endif %}
+{% if clagd is defined %}
+auto peerlink.{{ clagd.vlan }}
+iface peerlink.{{ clagd.vlan }}
+    address {{ clagd.address }}
+    clagd-peer-ip {{ clagd.peer_ip }}
+    clagd-backup-ip {{ clagd.backup_ip }}
+    clagd-sys-mac {{ clagd.sys_mac }}
+    clagd-enable yes
+    clagd-priority {{ clagd.priority }}
+
+{% endif %}
+{% if interfaces is defined %}
+{% for port, value in interfaces.items() %}
+auto {{ port }}
+iface {{ port }}
+{% if 'alias' in value %}
+    alias {{ value.alias }}
+{% endif %}
+{% if value and 'link_speed' in value %}
+    link-speed {{ value['link_speed'] }}
+{% endif %}
+{% if value and 'link_duplex' in value %}
+    link-duplex {{ value['link_duplex']|ternary('full', 'half') }}
+{% endif %}
+{% if value and 'mtu' in value %}
+    mtu {{ value.mtu }}
+{% endif %}
+{% if value and 'bridge_access' in value  %}
+    bridge-access {{ value.bridge_access }}
+{% endif %}
+{% if value and 'bridge_vids' in value  %}
+    bridge-vids {{ value['bridge_vids'] }}
+{% endif %}
+{% if value and 'bridge_pvid' in value  %}
+    bridge-pvid {{ value.bridge_pvid }}
+{% endif %}
+{% if value and 'address' in value %}
+    address {{ value.address }}
+{% endif %}
+{% if value and 'vrf' in value %}
+    vrf {{ value.vrf }}
+{% endif %}
+
+{% endfor %}
+{% endif %}
+{% if bonds is defined %}
+{% for port, value in bonds.items() %}
+auto {{ port }}
+iface {{ port }}
+{% if 'alias' in value %}
+    alias {{ value.alias }}
+{% endif %}
+{% if value.lacp_bypass_allow is defined %}
+    bond-lacp-bypass-allow 1
+{% endif %}
+{% if value.clag_id is defined %}
+    clag-id {{ value.clag_id }}
+{% endif %}
+{% if value and 'bridge_access' in value  %}
+    bridge-access {{ value.bridge_access }}
+{% endif %}
+{% if value and 'bridge_vids' in value  %}
+    bridge-vids {{ value['bridge_vids'] }}
+{% endif %}
+{% if value and 'bridge_pvid' in value  %}
+    bridge-pvid {{ value.bridge_pvid }}
+{% endif %}
+    bond-slaves {{ value.bond_slaves }}
+
+{% endfor %}
+{% endif %}
+{% if bridge is defined %}
+auto bridge
+iface bridge
+{% if bridge.bridge_vlan_aware is defined  %}
+    bridge-vlan-aware {{ bridge.bridge_vlan_aware }}
+{% endif %}
+    bridge-ports {{ bridge.ports }}
+{% if bridge.vids is defined  %}
+    bridge-vids {{ bridge.vids }}
+{% endif %}
+{% if bridge.bridge_stp is defined  %}
+    bridge-stp {{ bridge.bridge_stp }}
+{% endif %}
+{% if bridge.bridge_mcsnoop is defined  %}
+    bridge-mcsnoop {{ bridge.bridge_mcsnoop }}
+{% endif %}
+{% if bridge.bridge_mcquerier is defined  %}
+    bridge-mcquerier {{ bridge.bridge_mcquerier }}
+{% endif %}
+
+{% endif %}
+{% if vlans is defined %}
+{% for vlan_id, value in vlans.items() %}
+auto {{ vlan_id }}
+iface {{ vlan_id }}
+    alias {{ value.alias }}
+{% if value and 'bridge_ports' in value  %}
+    bridge-ports {{ value.bridge_ports }}
+{% endif %}
+{% if value and 'bridge_stp' in value  %}
+    bridge-stp {{ value.bridge_stp }}
+{% endif %}
+{% if value and 'vrf' in value %}
+    vrf {{ value.vrf }}
+{% endif %}
+    address {{ value.pipv4 }}
+{% if value and 'vmac' in value %}
+    address-virtual {{ value.vmac }} {{ value.vipv4 }}
+{% endif %}
+{% if value and 'vlan_id' in value %}
+    vlan-id {{ value.vlan_id }}
+{% endif %}
+{% if value and 'vlan_raw_device' in value %}
+    vlan-raw-device {{ value.vlan_raw_device }}
+{% endif %}
+
+{% endfor %}
+{% endif %}

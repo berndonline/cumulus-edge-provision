@@ -1,0 +1,4 @@
+---
+
+- name: restart ptmd
+  service: name=ptmd state=restarted

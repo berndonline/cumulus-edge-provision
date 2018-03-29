@@ -1,0 +1,17 @@
+---
+
+- name: Install ifplugd
+  apt: name=ifplugd update_cache=yes state=present
+  when: vagrant == false
+
+- name: Write ifplugd config
+  template: src=templates/ifplugd.j2
+            dest=/etc/default/ifplugd owner=root group=root mode=0644
+  when: vagrant == false
+  notify: restart ifplugd
+
+- name: Write ifupdown config
+  template: src=templates/ifupdown.j2
+            dest=/etc/ifplugd/action.d/ifupdown owner=root group=root mode=0644
+  when: vagrant == false
+  notify: restart ifplugd

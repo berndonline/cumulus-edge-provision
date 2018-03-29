@@ -1,0 +1,19 @@
+---
+
+vagrant: false
+
+ntp:
+  - '216.239.35.8'
+
+timezone: Etc/UTC
+
+clag_pairs:
+  edge:
+    - edge-1
+    - edge-2
+  wan:
+    - wan-1
+    - wan-2
+
+ptm:
+  - '"leaf-1":"swp51" -- "spine-1":"swp1"'
