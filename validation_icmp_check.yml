@@ -42,7 +42,10 @@
         - '10.0.255.19'
         - '10.0.255.1'
         - '10.0.255.2'
-        - '10.0.255.3' 
+        - '10.0.255.3'
+        - '217.0.0.1'
+        - '217.0.0.2'
+        - '217.0.0.3'
 
     - name: connectivity check from wan switches vrf internet
       shell: ping -I internet -c 1 '{{ item }}'
