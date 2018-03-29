@@ -5,8 +5,8 @@
   user: '{{ ansible_ssh_user }}'
   become: 'True'
   gather_facts: 'False'
-
-
+  serial: 1
+  
   tasks:
 
     - name: connectivity check from frontend firewall
@@ -41,7 +41,7 @@
         - '10.0.255.1'
         - '10.0.255.2'
         - '10.0.255.3'
-        
+
     - name: connectivity check from edge switches vrf frontend
       shell: ping -I frontend -c 1 '{{ item }}'
       when: "'edge' in inventory_hostname"
