@@ -27,7 +27,7 @@ bonds:
 bridge:
   bridge_vlan_aware: 'yes'
   ports: peerlink bond1 bond2
-  vids: 903 904
+  vids: 901 902
   bridge_stp: 'on'
   bridge_mcsnoop: 1
   bridge_mcquerier: 1

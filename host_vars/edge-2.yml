@@ -22,6 +22,6 @@ vlans:
   bridge.901:
     alias: backend transfer
     pipv4: 10.0.255.3/28
-    vipv4: 10.0.255.11/28
+    vipv4: 10.0.255.1/28
     vmac: 00:00:5e:00:01:91
     vrf: backend
