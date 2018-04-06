@@ -27,19 +27,19 @@ vlans:
     bridge_stp: 'on'
     pipv4: 10.100.0.2/29
     vrf: wan
-  bridge901:
+  bridge904:
     alias: internet transfer
-    bridge_ports: peerlink.901 bond1.901 bond2.901
+    bridge_ports: peerlink.904 bond1.904 bond2.904
     bridge_stp: 'on'
     pipv4: 217.0.0.3/28
     vipv4: 217.0.0.1/28
-    vmac: 00:00:5e:00:01:91
+    vmac: 00:00:5e:00:01:94
     vrf: internet
-  bridge902:
+  bridge903:
     alias: wan transfer
-    bridge_ports: peerlink.902 bond1.902 bond2.902
+    bridge_ports: peerlink.903 bond1.903 bond2.903
     bridge_stp: 'on'
     pipv4: 10.0.255.35/28
     vipv4: 10.0.255.33/28
-    vmac: 00:00:5e:00:01:92
+    vmac: 00:00:5e:00:01:93
     vrf: wan

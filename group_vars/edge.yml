@@ -5,10 +5,10 @@ vrf:
   - 'frontend'
 
 static_routes:
-  - 'ip route 0.0.0.0/0 10.0.255.14 vrf frontend'
-  - 'ip route 0.0.0.0/0 10.0.255.30 vrf backend'
-  - 'ip route 10.0.255.0/28 10.0.255.30 vrf backend'
-  - 'ip route 10.0.255.33/28 10.0.255.28 vrf backend'  
+  - 'ip route 0.0.0.0/0 10.0.255.30 vrf frontend'
+  - 'ip route 0.0.0.0/0 10.0.255.14 vrf backend'
+  - 'ip route 10.0.255.0/28 10.0.255.14 vrf backend'
+  - 'ip route 10.0.255.33/28 10.0.255.12 vrf backend'  
 
 peerlink:
   bond_slaves: swp53 swp54
